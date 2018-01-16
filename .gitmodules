@@ -1,0 +1,3 @@
+[submodule "pstdlib"]
+	path = pstdlib
+	url = ../pstdlib.git
