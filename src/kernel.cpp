@@ -38,10 +38,7 @@ static void call_global_constructors()
     __ctors_start();
 }
 
-#if defined(__cplusplus)
-extern "C" /* Use C linkage for kernel_main. */
-#endif
-void kernel_main(void) 
+extern "C" void kernel_main(void)
 {
     using namespace PaulOS;
     call_global_constructors();
