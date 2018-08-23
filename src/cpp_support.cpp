@@ -11,6 +11,7 @@ namespace __cxxabiv1
 
 	//static local variables.
     //don't do anything het.
+    //when we exit, we just halt, so don't bother running destructors.
     extern "C" int __cxa_atexit(void (*destructor) (void *), void *arg, void *dso)
     {
         (void) destructor;

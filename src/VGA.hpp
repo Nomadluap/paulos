@@ -1,4 +1,6 @@
-
+/*
+ * Low-level VGA commands
+ */
 #pragma once
 #include <stdint.h>
 #include <stddef.h>
@@ -55,9 +57,18 @@ namespace PaulOS { namespace Vga {
     inline void set_default_color(Color fg, Color bg){set_default_color(make_color(fg, bg));}
 
     void put_at(char c, uint8_t color, size_t x, size_t y);
+
+    // put single character.
     void put(char c);
+
+    // length-delimited string to console.
     void put(char const* s, size_t length);
+
+    // null-terminated string to console.
     void put(char const* s);
+
+    void putline(char const* s, size_t length);
+    void putline(char const* s);
 
 }}
 

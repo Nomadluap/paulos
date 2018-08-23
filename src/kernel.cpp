@@ -1,36 +1,25 @@
-/* Surely you will remove the processor conditionals and this comment
-   appropriately depending on whether or not you use C++. */
-#if !defined(__cplusplus)
-#include <stdbool.h> /* C doesn't have booleans by default. */
-#endif
 #include <stddef.h>
 #include <stdint.h>
  
-/* Check if the compiler thinks we are targeting the wrong operating system. */
-#if defined(__linux__)
-#error "You are not using a cross-compiler, you will most certainly run into trouble"
-#endif
- 
-/* This tutorial will only work for the 32-bit ix86 targets. */
-#if !defined(__i386__)
-#error "This tutorial needs to be compiled with a ix86-elf compiler"
-#endif
-
+#include "compile_checks.hpp"
 #include "kernel.hpp"
-#include "Foo.hpp"
 #include "VGA.hpp"
- 
-const char* status = "Bar was not triggered. ";
 
-struct Bar
-{
-    Bar()
+namespace{
+    const char* const STATUS_OK = "Static init OK";
+    const char* const STATUS_BAD = "Static init not OK";
+    const char* status = STATUS_BAD;
+    //check for correct static_init of classes.
+    struct StaticInitVerifier
     {
-        status = "Bar was triggered.";
-
-    }
-};
-Bar bar;
+        // this constructor should be run before kernel_main enters.
+        StaticInitVerifier()
+        {
+            status = STATUS_OK;
+        }
+    };
+    StaticInitVerifier bar;
+}
 
 static void call_global_constructors()
 {
@@ -44,11 +33,39 @@ extern "C" void kernel_main(void)
     call_global_constructors();
 	/* Initialize terminal interface */
     Vga::initialize();
-    char buf[] = "What is this";
-    static_assert(sizeof(buf) == 13, "buf should be 13");
+    char buf[] = "What is this\n";
+    static_assert(sizeof(buf) == 14, "buf should be 13");
     Vga::put(buf, sizeof(buf));
-    Vga::put("Hello from the kernel! ");
-    Vga::put(status);
+    Vga::putline("Hello from the kernel!!!! ");
+    Vga::putline(status);
+    using Vga::putline;
+    putline("one");
+    putline("two");
+    putline("three");
+    putline("four");
+    putline("five");
+    putline("six");
+    putline("seven");
+    putline("eight");
+    putline("nine");
+    putline("ten");
+    putline("eleven");
+    putline("twelve");
+    putline("thirteen");
+    putline("fourteen");
+    putline("fifteen");
+    putline("sixteen");
+    putline("seventeen");
+    putline("eighteen");
+    putline("nineteen");
+    putline("twenty");
+    putline("twenty-one");
+    putline("twenty-two");
+    putline("twenty-three");
+    putline("twenty-five");
+    putline("twenty-six");
+    putline("twenty-seven");
+
 
     for(size_t i = 0; i < 80; i++)
     {

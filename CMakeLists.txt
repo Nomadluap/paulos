@@ -46,13 +46,13 @@ set_source_files_properties(${CRTBEGIN_OBJ} ${CRTEND_OBJ}
     GENERATED true
 )
 
-# add_subdirectory(stdlib)
 
 set(SOURCES
     src/boot.s
     src/kernel.cpp src/kernel.hpp
-    src/cpp_support.cpp src/Foo.cpp src/Foo.hpp src/VGA.cpp src/VGA.hpp src/array.hpp)
+    src/cpp_support.cpp src/VGA.cpp src/VGA.hpp src/array.hpp src/compile_checks.hpp)
 
+# These should be in this exact order! Dont' change it.
 add_executable(paulos
     src/crti.s
     ${CRTBEGIN_OBJ}
@@ -61,7 +61,8 @@ add_executable(paulos
     src/crtn.s
 )
 
-# target_link_libraries(paulos stdlib)
+add_subdirectory(pstdlib)
+target_link_libraries(paulos pstdlib)
 
 
 set_target_properties(paulos PROPERTIES CXX_STANDARD 14)
