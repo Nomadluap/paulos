@@ -50,7 +50,7 @@ set_source_files_properties(${CRTBEGIN_OBJ} ${CRTEND_OBJ}
 set(SOURCES
     src/boot.s
     src/kernel.cpp src/kernel.hpp
-    src/cpp_support.cpp src/VGA.cpp src/VGA.hpp src/array.hpp src/compile_checks.hpp)
+    src/cpp_support.cpp src/VGA.cpp src/VGA.hpp src/array.hpp src/compile_checks.hpp src/stack.hpp src/hex.hpp src/hex.cpp src/stack.cpp)
 
 # These should be in this exact order! Dont' change it.
 add_executable(paulos

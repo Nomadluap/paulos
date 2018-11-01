@@ -32,9 +32,11 @@ undefined behavior.
 */
 .section .bss
 .align 16
-stack_bottom:
-.skip 16384 # 16 KiB
-stack_top:
+.global __stack_bottom
+__stack_bottom:
+.skip 0x4000 # 16 KiB
+.global __stack_top
+__stack_top:
 
 /*
 The linker script specifies _start as the entry point to the kernel and the
@@ -64,7 +66,11 @@ _start:
 	stack (as it grows downwards on x86 systems). This is necessarily done
 	in assembly as languages such as C cannot function without a stack.
 	*/
-	mov $stack_top, %esp
+	mov $__stack_top, %esp
+
+	//set up a null stack frame so that we can unwind correctly
+	xor %ebp, %ebp //zero out ebp
+	push %ebp // and push
 
 	/*
 	This is a good place to initialize crucial processor state before the
